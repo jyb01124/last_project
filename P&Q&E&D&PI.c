@@ -5,12 +5,15 @@
 
 int coprime(int p_temp, int q_temp);
 int RSA_e_maker(int p, int q);
+int RSA_d_maker(int e, int pi);
 
 int main(int argc, char *argv[])
 {
 	int p = 0;
 	int q = 0;
 	int e = 0;
+	int d = 0;
+	int pi = 0;
 
 	int temp = 0;
 
@@ -19,13 +22,11 @@ int main(int argc, char *argv[])
 	FILE *OK;
 	errno_t err_OK;
 
-	err_OK = fopen_s(&OK, "P&Q.txt", "w");
+	err_OK = fopen_s(&OK, "P&Q&E&D&PI.txt", "w");
 
-	if (err_OK == 0)
-		puts("파일오픈 성공!\n");
-	else {
-		puts("파일 오픈 실패\n");
-		return -1;
+	if (err_OK != 0)
+	{
+		return -1;	
 	}
 
 	while (1)
@@ -55,9 +56,16 @@ int main(int argc, char *argv[])
 		}
 		Sleep(1000);
 	}
+
+	pi = (p - 1) * (q - 1);
 	e = RSA_e_maker(p, q);
-	fprintf(OK, "P : %d  Q : %d  e : %d", p, q, e);
+	d = RSA_d_maker(e, pi);
+
+	fprintf(OK, "P,Q,E,D,PI \n", p, q, e, d, pi);
+	fprintf(OK, "%d,%d,%d,%d,%d", p, q, e, d, pi);
+
 	fclose(OK);
+
 	return 0;
 }
 
@@ -132,4 +140,24 @@ int RSA_e_maker(int p, int q)
 		}
 
 	}
+}
+
+int RSA_d_maker(int e, int pi)
+{
+	int d = 0;
+	int calc = 0;
+
+	while (1)
+	{
+		srand(time(NULL));
+
+		d = (rand() % (pi - 1)) + 1;
+		calc = (e * d) % pi;
+		if (calc == 1)
+		{
+			break;
+		}
+		Sleep(1000);
+	}
+	return d;
 }

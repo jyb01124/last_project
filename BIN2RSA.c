@@ -4,7 +4,8 @@
 
 char change(char a);
 int unchange(char a);
-int RSA(int value, int e, int n);
+int RSA_encrypt(int value, int e, int n);
+int RSA_decrypt(int value, int d, int n);
 
 int main(int argc, char *argv[])
 {
@@ -133,7 +134,7 @@ int unchange(char a)
 	}
 }
 
-int RSA(int value, int e, int n)
+int RSA_encrypt(int value, int e, int n)
 {
 	int P_M = 0;
 	int mod = 0;
@@ -142,4 +143,15 @@ int RSA(int value, int e, int n)
 	mod = P_M % e;
 
 	return mod;
+}
+
+int RSA_decrypt(int value, int d, int n)
+{
+	int Q_M = 0;
+	int M = 0;
+
+	Q_M = (int)(pow((double)value, (double)d));
+	M = Q_M % n;
+
+	return M;
 }
