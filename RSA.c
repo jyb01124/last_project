@@ -22,11 +22,11 @@ int main(int argc, char *argv[])
 	FILE *OK;
 	errno_t err_OK;
 
-	err_OK = fopen_s(&OK, "P&Q&E&D&PI.txt", "w");
+	err_OK = fopen_s(&OK, "RSA.txt", "w");
 
 	if (err_OK != 0)
 	{
-		return -1;	
+		return -1;
 	}
 
 	while (1)
