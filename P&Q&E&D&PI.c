@@ -120,11 +120,7 @@ int RSA_e_maker(int p, int q)
 
 		e = (rand() % (n - 1)) + 1;
 
-		if (e > pi)
-		{
-			accept = coprime(e, pi);
-		}
-		else if (e < pi)
+		if (e < pi)
 		{
 			accept = coprime(pi, e);
 		}
@@ -144,20 +140,19 @@ int RSA_e_maker(int p, int q)
 
 int RSA_d_maker(int e, int pi)
 {
-	int d = 0;
+	int d = 2;
 	int calc = 0;
 
 	while (1)
 	{
-		srand(time(NULL));
+		calc = (d*e) % pi;
 
-		d = (rand() % (pi - 1)) + 1;
-		calc = (e * d) % pi;
 		if (calc == 1)
 		{
 			break;
 		}
-		Sleep(1000);
+
+		d++;
 	}
 	return d;
 }
